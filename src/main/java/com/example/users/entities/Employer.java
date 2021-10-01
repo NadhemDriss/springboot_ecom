@@ -1,7 +1,9 @@
 package com.example.users.entities;
 
+import com.example.users.security.AppUser;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -31,24 +33,28 @@ public class Employer {
     @NotNull(message = "salaire is required")
     private BigDecimal salaire;
     private int solde;
+//    @DBRef
+//    private AppUser appUser;
 
-    public String getId() {
-        return id;
-    }
 
     public Employer() {
     }
 
-    public Employer(String id, @NotNull(message = "name is required") String nom, @NotNull(message = "prenom is required") String prenom, @NotNull(message = "grade is required") String grade, @NotNull(message = "cin is required") String cin, @NotNull(message = "date embauche is required") Date dateEmb, @NotNull(message = "salaire is required") BigDecimal salaire) {
-        this.id = id;
+    public Employer(@NotNull(message = "name is required") String nom, @NotNull(message = "prenom is required") String prenom, @NotNull(message = "grade is required") String grade, @NotNull(message = "cin is required") String cin, @NotNull(message = "date embauche is required") Date dateEmb, @NotNull(message = "salaire is required") BigDecimal salaire, AppUser appUser) {
         this.nom = nom;
         this.prenom = prenom;
         this.grade = grade;
         this.cin = cin;
         this.dateEmb = dateEmb;
         this.salaire = salaire;
-        this.solde = 0;
+        this.solde= 0;
+      //  this.appUser = appUser;
     }
+
+    public String getId() {
+        return id;
+    }
+
 
     public void setId(String id) {
         this.id = id;

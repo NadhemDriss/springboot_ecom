@@ -25,10 +25,11 @@ public class CongeController {
         return new ResponseEntity<>(conges, HttpStatus.OK);
     }
 
-    @PostMapping
-    public  ResponseEntity<Conge> insert (@RequestBody  Conge conge)
+    @PostMapping("{id}")
+    public  ResponseEntity<Conge> insert (@RequestBody  Conge conge,@PathVariable String id)
     {
-        Conge createdConge=congeService.save(conge);
+
+        Conge createdConge=congeService.save(conge,id);
         return new ResponseEntity<>(createdConge,HttpStatus.CREATED);
     }
     @PutMapping

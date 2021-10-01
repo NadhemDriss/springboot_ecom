@@ -2,10 +2,12 @@ package com.example.users.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Document
 public class Conge {
@@ -20,15 +22,20 @@ public class Conge {
     private Date dateRetour;
     @NotNull(message = "Etat is required")
     private Etat etat;
+    @DBRef
+    private Employer employer;
 
     public Conge() {
     }
 
-    public Conge(Integer nbrJour, @NotNull(message = "date sortie is required") Date dateSortie, @NotNull(message = "date retour is required") Date dateRetour, @NotNull(message = "Etat is required") Etat etat) {
-        this.nbrJour = nbrJour;
+    public Conge(Integer nbrJour, @NotNull(message = "date sortie is required") Date dateSortie, @NotNull(message = "date retour is required") Date dateRetour, @NotNull(message = "Etat is required") Etat etat,Employer employer) {
+        Long milliseconds = dateSortie.getTime() - dateRetour.getTime();
+        Integer days = Math.toIntExact(TimeUnit.MILLISECONDS.toDays(milliseconds));
+        this.nbrJour = days;
         this.dateSortie = dateSortie;
         this.dateRetour = dateRetour;
         this.etat = etat;
+        this.employer=employer;
     }
 
     public String getId() {
@@ -69,5 +76,13 @@ public class Conge {
 
     public void setEtat(Etat etat) {
         this.etat = etat;
+    }
+
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
     }
 }
