@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -28,7 +30,8 @@ public class AppUser implements UserDetails {
 
     @NotEmpty
     private String password;
-
+    @NotEmpty
+    private Role role;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date created;
 
@@ -36,11 +39,25 @@ public class AppUser implements UserDetails {
         this.created = new Date();
     }
 
-    public AppUser(@NotEmpty @Email String email, @NotEmpty String name, @NotEmpty String password) {
+    public AppUser(@NotEmpty @Email String email, @NotEmpty String name, @NotEmpty String password ) {
         this.email = email;
         this.name = name;
         this.password = password;
+        this.role= Role.EMPLOYER;
         this.created = new Date();
+
+
+
+    }
+    public AppUser(@NotEmpty @Email String email, @NotEmpty String name, @NotEmpty String password,@NotEmpty Role role) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.role= role;
+        this.created = new Date();
+
+
+
     }
 
     public String getId() {
@@ -79,6 +96,13 @@ public class AppUser implements UserDetails {
         this.created = created;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

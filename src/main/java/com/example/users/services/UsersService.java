@@ -21,21 +21,21 @@ public class UsersService {
     }
 
 
-    public  User save (@RequestBody User user) {
+    public  User save ( User user) {
         return repository.save(user);
     }
 
 
-    public  User update (@RequestBody  User user) {
+    public  User update (User user) {
         return repository.save(user);
     }
 
 
-    public void deleteById (@PathVariable String id) {
+    public void deleteById (String id) {
         repository.deleteById(id);
     }
 
-    public User findById (@PathVariable String id) {
-        return  repository.findById(id).get();
+    public User findById (String id) {
+        return repository.findById(id).get();
     }
 }
